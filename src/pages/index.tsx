@@ -1,5 +1,9 @@
 import Head from 'next/head'
 
+import { PlusIcon } from '@/components/atoms'
+import { Channels, User } from '@/components/molecules'
+import { Chat } from '@/components/organisms'
+
 export default function Home() {
   return (
     <>
@@ -9,7 +13,37 @@ export default function Home() {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main>Hola mundo</main>
+
+      <div className='min-h-screen flex'>
+        <aside className='w-[22.5%] flex-shrink-0 bg-secondary min-w-[20.25rem] flex flex-col'>
+          <div
+            style={{
+              boxShadow: 'var(--shadow)'
+            }}
+            className='flex justify-between items-center px-8 py-4 h-16'
+          >
+            <h3 className='text-lg font-bold tracking-[-0.035em]'>Channels</h3>
+            <button className='text-[#f2f2f2] w-8 h-8 rounded-lg bg-gray-200 flex justify-center items-center p-1'>
+              <PlusIcon />
+            </button>
+          </div>
+          <Channels />
+          <User />
+        </aside>
+        <main className='w-[77.5%] flex-shrink-0 flex flex-col'>
+          <div style={{ boxShadow: 'var(--shadow)' }} className='h-16 py-4 px-16 flex items-center flex-shrink-0'>
+            <h1 className='text-lg font-bold tracking-[-0.035em]'>FRONT-END DEVELOPERS</h1>
+          </div>
+          {false ? (
+            <Chat />
+          ) : (
+            <div className='flex justify-center items-center text-center flex-grow p-4'>
+              <h2>Enter a channel to start chatting! 😁</h2>
+            </div>
+          )}
+          <div></div>
+        </main>
+      </div>
     </>
   )
 }
