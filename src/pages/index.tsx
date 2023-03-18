@@ -38,7 +38,7 @@ export default function Home() {
             <Chat />
           ) : (
             <div className='flex justify-center items-center text-center flex-grow p-4'>
-              <h2>Enter a channel to start chatting! 😁</h2>
+              <h2 className='text-2xl font-bold'>Enter a channel to start chatting! 😁</h2>
             </div>
           )}
           <div></div>
