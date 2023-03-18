@@ -1,4 +1,6 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
+
 import { ChannelSearch } from './ChannelSeach'
 
 const ALL_CHANNELS = [
@@ -25,6 +27,9 @@ const ALL_CHANNELS = [
 ]
 
 export function Channels() {
+  const [search, setSearch] = useState('')
+  const [parent] = useAutoAnimate<HTMLUListElement>()
+
   const channels = useMemo(() => {
     return ALL_CHANNELS.map((channel) => {
       return {
@@ -37,22 +42,31 @@ export function Channels() {
       }
     })
   }, [])
+
+  const filteredChannels = useMemo(() => {
+    if (search === '') return channels
+
+    return channels?.filter((channel) => channel.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+  }, [channels, search])
+
   return (
     <div className='px-8 py-5 flex flex-col gap-8 flex-grow overflow-y-auto'>
-      <ChannelSearch />
+      <ChannelSearch setSearch={setSearch} />
 
-      <div className='flex flex-col gap-6 overflow-y-auto'>
-        {channels.map(({ id, firstLetters, name }) => {
+      <ul className='flex flex-col gap-6' ref={parent}>
+        {filteredChannels.map(({ id, firstLetters, name }) => {
           return (
-            <button key={id} className='flex items-center gap-3 rounded-lg hover:bg-gray-300 transition-colors'>
-              <p className='w-10 h-10 flex justify-center items-center text-white bg-gray-200 rounded-lg font-semibold text-lg tracking-[-0.035em]'>
-                {firstLetters}
-              </p>
-              <h4>{name}</h4>
-            </button>
+            <li key={id}>
+              <button className='flex items-center gap-3 rounded-lg hover:bg-gray-300 transition-colors w-full'>
+                <p className='w-10 h-10 flex justify-center items-center text-white bg-gray-200 rounded-lg font-semibold text-lg tracking-[-0.035em]'>
+                  {firstLetters}
+                </p>
+                <h4>{name}</h4>
+              </button>
+            </li>
           )
         })}
-      </div>
+      </ul>
     </div>
   )
 }

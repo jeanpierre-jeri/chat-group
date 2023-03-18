@@ -1,6 +1,10 @@
 import { SearchIcon } from '../atoms'
 
-export function ChannelSearch() {
+interface Props {
+  setSearch: (value: string) => void
+}
+
+export function ChannelSearch({ setSearch }: Props) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
   }
@@ -17,6 +21,7 @@ export function ChannelSearch() {
           <SearchIcon />
         </div>
         <input
+          onInput={(e) => setSearch(e.currentTarget.value)}
           type='text'
           name='channel'
           placeholder='Search'
