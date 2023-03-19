@@ -1,5 +1,13 @@
+import { useState } from 'react'
 import type { AppProps } from 'next/app'
 import { Noto_Sans } from 'next/font/google'
+import {
+  SessionContextProvider,
+  type Session
+} from '@supabase/auth-helpers-react'
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
+
+import '@/styles/globals.css'
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -7,12 +15,21 @@ const notoSans = Noto_Sans({
   display: 'swap'
 })
 
-import '@/styles/globals.css'
+interface Props extends AppProps {
+  initialSession: Session
+}
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps, initialSession }: Props) {
+  const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+
   return (
     <div className={notoSans.className}>
-      <Component {...pageProps} />
+      <SessionContextProvider
+        supabaseClient={supabaseClient}
+        initialSession={initialSession}
+      >
+        <Component {...pageProps} />
+      </SessionContextProvider>
     </div>
   )
 }

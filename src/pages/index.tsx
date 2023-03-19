@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import Head from 'next/head'
+import type { GetServerSideProps } from 'next'
+import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 import { PlusIcon } from '@/components/atoms'
 import { AddNewChannel, Channels, User } from '@/components/molecules'
 import { Chat } from '@/components/organisms'
 
 export default function Home() {
-  const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false)
+  const [isOverlayActive, setIsOverlayActive] = useState(false)
+
   return (
     <>
       <Head>
@@ -35,7 +38,7 @@ export default function Home() {
           <Channels />
           <User />
         </aside>
-        <main className='flex-grow flex-shrink-0 flex flex-col max-h-screen'>
+        <main className='flex-grow flex flex-col max-h-screen'>
           <div
             style={{ boxShadow: 'var(--shadow)' }}
             className='h-16 py-4 px-16 flex items-center flex-shrink-0'
@@ -61,4 +64,26 @@ export default function Home() {
       />
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const supabase = createServerSupabaseClient(ctx)
+
+  const { data } = await supabase.auth.getSession()
+  const { session } = data
+
+  if (!session)
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+
+  return {
+    props: {
+      initialSessions: session,
+      user: session.user
+    }
+  }
 }
