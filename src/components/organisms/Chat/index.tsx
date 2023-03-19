@@ -11,21 +11,24 @@ const MESSAGES = [
         id: 5,
         name: 'Nellie Francis',
         createdAt: 'today at 2:29 AM',
-        message: 'Class aptent taciti sociosqu ad litora torquent per conubia nostra 😀',
+        message:
+          'Class aptent taciti sociosqu ad litora torquent per conubia nostra 😀',
         userImg: 'https://randomuser.me/api/portraits/women/1.jpg'
       },
       {
         id: 6,
         name: 'Shaunna Firth',
         createdAt: 'today at 1:29 PM',
-        message: 'Orci varius natoque penatibus et magnis dis parturient montes 😀',
+        message:
+          'Orci varius natoque penatibus et magnis dis parturient montes 😀',
         userImg: 'https://randomuser.me/api/portraits/women/3.jpg'
       },
       {
         id: 7,
         name: 'Denzel Barrett',
         createdAt: 'today at 2:39 PM',
-        message: 'Aenean tempus nibh vel est lobortis euismod. Vivamus laoreet viverra nunc 🐶',
+        message:
+          'Aenean tempus nibh vel est lobortis euismod. Vivamus laoreet viverra nunc 🐶',
         userImg: 'https://randomuser.me/api/portraits/men/4.jpg'
       }
     ]
@@ -38,14 +41,16 @@ const MESSAGES = [
         id: 1,
         name: 'Nellie Francis',
         createdAt: 'yesterday at 2:29 AM',
-        message: 'Suspendisse enim tellus, elementum quis dictum sed, sodales at mauris 😀',
+        message:
+          'Suspendisse enim tellus, elementum quis dictum sed, sodales at mauris 😀',
         userImg: 'https://randomuser.me/api/portraits/women/1.jpg'
       },
       {
         id: 2,
         name: 'Annaliese Huynh',
         createdAt: 'yesterday at 2:29 AM',
-        message: 'Orci varius natoque penatibus et magnis dis parturient montes 😀',
+        message:
+          'Orci varius natoque penatibus et magnis dis parturient montes 😀',
         userImg: 'https://randomuser.me/api/portraits/women/2.jpg'
       },
       {
@@ -73,7 +78,9 @@ export function Chat() {
   }
   return (
     <div className='pb-10 overflow-y-auto flex flex-col gap-12'>
-      <section className={`pt-24 px-16 flex-grow gap-9 flex flex-col-reverse overflow-y-auto ${styles.messages}`}>
+      <section
+        className={`pt-24 px-16 flex-grow gap-9 flex flex-col-reverse overflow-y-auto ${styles.messages}`}
+      >
         {MESSAGES.map(({ id, date, messages }) => {
           return (
             <ul key={id} className='flex flex-col gap-8'>
@@ -82,7 +89,15 @@ export function Chat() {
               </li>
               <ul className='flex flex-col gap-9'>
                 {messages.map(({ id, createdAt, message, name, userImg }) => {
-                  return <UserMessage key={id} createdAt={createdAt} message={message} name={name} userImg={userImg} />
+                  return (
+                    <UserMessage
+                      key={id}
+                      createdAt={createdAt}
+                      message={message}
+                      name={name}
+                      userImg={userImg}
+                    />
+                  )
                 })}
               </ul>
             </ul>
