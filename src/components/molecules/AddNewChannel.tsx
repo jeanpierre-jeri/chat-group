@@ -1,11 +1,4 @@
-import { Noto_Sans } from "next/font/google";
 import { FormEvent, useRef } from "react";
-
-
-const notoSans = Noto_Sans({
-    subsets: ['latin'],
-    weight: ['500','700']
-})
 
 interface AddNewChannelProps{
     isOverlayActive: boolean
@@ -29,7 +22,7 @@ export const AddNewChannel = ({isOverlayActive,setIsOverlayActive}:AddNewChannel
     }
   return (
     <>
-    <div className={`fixed inset-0  bg-secondary/50 transition-opacity duration-300 ${notoSans} ${isOverlayActive ? 'opacity-100 pointer-events-auto'
+    <div className={`fixed inset-0  bg-secondary/50 transition-opacity duration-300 ${isOverlayActive ? 'opacity-100 pointer-events-auto'
     : 'pointer-events-none opacity-0'} `} onClick={handleCloseModal}>
     
     </div>
