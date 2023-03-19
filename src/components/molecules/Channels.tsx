@@ -2,44 +2,20 @@ import { useMemo, useState } from 'react'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 import { ChannelSearch } from './ChannelSeach'
-
-const ALL_CHANNELS = [
-  {
-    id: 1,
-    name: 'FRONT-END DEVELOPERS'
-  },
-  {
-    id: 2,
-    name: 'RANDOM'
-  },
-  {
-    id: 3,
-    name: 'BACK-END'
-  },
-  {
-    id: 4,
-    name: 'CATS AND DOGS'
-  },
-  {
-    id: 5,
-    name: 'WELCOME'
-  }
-]
+import { Database } from '../../../types/supabase'
 
 interface ChannelProps {
   setCurrentIdChannel: (id: number) => void
   setIsAllChannelsActive: (isAllChannelsActive: boolean) => void
+  rooms: Database['public']['Tables']['rooms']['Row'][]
 }
 
-export function Channels({
-  setCurrentIdChannel,
-  setIsAllChannelsActive
-}: ChannelProps) {
+export function Channels({ rooms }: ChannelProps) {
   const [search, setSearch] = useState('')
   const [parent] = useAutoAnimate<HTMLUListElement>()
 
   const channels = useMemo(() => {
-    return ALL_CHANNELS.map((channel) => {
+    return rooms.map((channel) => {
       return {
         ...channel,
         firstLetters: channel.name
@@ -49,19 +25,21 @@ export function Channels({
           .join('')
       }
     })
-  }, [])
+  }, [rooms])
 
   const filteredChannels = useMemo(() => {
     if (search === '') return channels
 
     return channels?.filter((channel) =>
-      channel.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+      channel.name.toLowerCase().includes(search.toLowerCase())
     )
   }, [channels, search])
 
-  const handleCurrentChannel = (id: number) => {
-    setCurrentIdChannel(id)
-    setIsAllChannelsActive(false)
+  const handleCurrentChannel = (id: string) => {
+    console.log(id)
+
+    // setCurrentIdChannel(id)
+    // setIsAllChannelsActive(false)
   }
 
   return (

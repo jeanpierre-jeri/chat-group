@@ -7,6 +7,7 @@ import {
 } from '@supabase/auth-helpers-react'
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
+import { Database } from '../../types/supabase'
 import '@/styles/globals.css'
 
 const notoSans = Noto_Sans({
@@ -20,7 +21,9 @@ interface Props extends AppProps {
 }
 
 export default function App({ Component, pageProps, initialSession }: Props) {
-  const [supabaseClient] = useState(() => createBrowserSupabaseClient())
+  const [supabaseClient] = useState(() =>
+    createBrowserSupabaseClient<Database>()
+  )
 
   return (
     <div className={notoSans.className}>

@@ -2,10 +2,11 @@ import { useEffect } from 'react'
 import type { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
+import { useSession } from '@supabase/auth-helpers-react'
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 import { GithubIcon, GoogleIcon } from '@/components/atoms'
+import { useSupabaseClient } from '@/hooks'
 
 export default function Login() {
   const router = useRouter()

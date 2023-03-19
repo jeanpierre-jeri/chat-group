@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Head from 'next/head'
 import type { GetServerSideProps } from 'next'
-import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 import { PlusIcon, LeftArrowIcon } from '@/components/atoms'
 import {
@@ -12,6 +11,8 @@ import {
 } from '@/components/molecules'
 import { Chat } from '@/components/organisms'
 import { Member, MessagesList } from '@/interfaces'
+import { Database } from '../../types/supabase'
+import { createSupabaseServer } from '@/lib'
 
 const ALL_CHANNELS = [
   {
@@ -466,7 +467,11 @@ const ALL_CHANNELS = [
   }
 ]
 
-export default function Home() {
+interface HomeProps {
+  rooms: Database['public']['Tables']['rooms']['Row'][]
+}
+
+export default function Home({ rooms }: HomeProps) {
   const [isOverlayActive, setIsOverlayActive] = useState(false)
   const [isAllChannelsActive, setIsAllChannelsActive] = useState(true)
   const [currentIdChannel, setCurrentIdChannel] = useState(0)
@@ -505,6 +510,7 @@ export default function Home() {
                 </button>
               </div>
               <Channels
+                rooms={rooms}
                 setCurrentIdChannel={setCurrentIdChannel}
                 setIsAllChannelsActive={setIsAllChannelsActive}
               />
@@ -567,23 +573,31 @@ export default function Home() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const supabase = createServerSupabaseClient(ctx)
+  const supabase = createSupabaseServer(ctx)
 
   const { data } = await supabase.auth.getSession()
   const { session } = data
 
-  if (!session)
+  if (!session) {
     return {
       redirect: {
         destination: '/login',
         permanent: false
       }
     }
+  }
+
+  const { data: rooms, error } = await supabase.from('rooms').select()
+
+  if (error) {
+    console.log('Error en select tabla rooms', error)
+  }
 
   return {
     props: {
       initialSessions: session,
-      user: session.user
+      user: session.user,
+      rooms
     }
   }
 }
