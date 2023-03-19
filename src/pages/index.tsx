@@ -1,13 +1,11 @@
+import { useState } from 'react'
 import Head from 'next/head'
 
 import { PlusIcon } from '@/components/atoms'
 import { AddNewChannel, Channels, User } from '@/components/molecules'
-
-import { useState } from 'react'
 import { Chat } from '@/components/organisms'
 
 export default function Home() {
-
   const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false)
   return (
     <>
@@ -27,7 +25,10 @@ export default function Home() {
             className='flex justify-between items-center px-8 py-4 h-16'
           >
             <h3 className='text-lg font-bold tracking-[-0.035em]'>Channels</h3>
-            <button className='text-[#f2f2f2] w-8 h-8 rounded-lg bg-gray-200 flex justify-center items-center p-1' onClick={() => setIsOverlayActive(true)}>
+            <button
+              className='text-[#f2f2f2] w-8 h-8 rounded-lg bg-gray-200 flex justify-center items-center p-1'
+              onClick={() => setIsOverlayActive(true)}
+            >
               <PlusIcon />
             </button>
           </div>
@@ -35,19 +36,29 @@ export default function Home() {
           <User />
         </aside>
         <main className='flex-grow flex-shrink-0 flex flex-col max-h-screen'>
-          <div style={{ boxShadow: 'var(--shadow)' }} className='h-16 py-4 px-16 flex items-center flex-shrink-0'>
-            <h1 className='text-lg font-bold tracking-[-0.035em]'>FRONT-END DEVELOPERS</h1>
+          <div
+            style={{ boxShadow: 'var(--shadow)' }}
+            className='h-16 py-4 px-16 flex items-center flex-shrink-0'
+          >
+            <h1 className='text-lg font-bold tracking-[-0.035em]'>
+              FRONT-END DEVELOPERS
+            </h1>
           </div>
           {true ? (
             <Chat />
           ) : (
             <div className='flex justify-center items-center text-center flex-grow p-4'>
-              <h2 className='text-2xl font-bold'>Enter a channel to start chatting! 😁</h2>
+              <h2 className='text-2xl font-bold'>
+                Enter a channel to start chatting! 😁
+              </h2>
             </div>
           )}
         </main>
       </div>
-      <AddNewChannel isOverlayActive={isOverlayActive} setIsOverlayActive={setIsOverlayActive} />
+      <AddNewChannel
+        isOverlayActive={isOverlayActive}
+        setIsOverlayActive={setIsOverlayActive}
+      />
     </>
   )
 }

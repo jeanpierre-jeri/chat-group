@@ -61,7 +61,7 @@ export const AddNewChannel = ({
             cols={30}
             rows={5}
             placeholder='Channel Description'
-            className='bg-gray-300 placeholder:text-gray-100 outline-none border-none rounded-[8px] py-3 px-4'
+            className='bg-gray-300 placeholder:text-gray-100 outline-none border-none rounded-[8px] py-3 px-4 resize-none'
           ></textarea>
           <div className='flex justify-end items-center'>
             <button
