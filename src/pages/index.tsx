@@ -11,8 +11,8 @@ import {
 } from '@/components/molecules'
 import { Chat } from '@/components/organisms'
 import { Member, MessagesList } from '@/interfaces'
-import { Database } from '../../types/supabase'
 import { createSupabaseServer } from '@/lib'
+import type { Room } from '../../types'
 
 const ALL_CHANNELS = [
   {
@@ -468,13 +468,14 @@ const ALL_CHANNELS = [
 ]
 
 interface HomeProps {
-  rooms: Database['public']['Tables']['rooms']['Row'][]
+  initialRooms: Room[]
 }
 
-export default function Home({ rooms }: HomeProps) {
+export default function Home({ initialRooms }: HomeProps) {
   const [isOverlayActive, setIsOverlayActive] = useState(false)
   const [isAllChannelsActive, setIsAllChannelsActive] = useState(true)
   const [currentIdChannel, setCurrentIdChannel] = useState(0)
+  const [rooms, setRooms] = useState(initialRooms)
 
   const currentChannel = ALL_CHANNELS.find(
     (channel) => channel.id === currentIdChannel
@@ -565,6 +566,7 @@ export default function Home({ rooms }: HomeProps) {
         </main>
       </div>
       <AddNewChannel
+        setRooms={setRooms}
         isOverlayActive={isOverlayActive}
         setIsOverlayActive={setIsOverlayActive}
       />
@@ -597,7 +599,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     props: {
       initialSessions: session,
       user: session.user,
-      rooms
+      initialRooms: rooms
     }
   }
 }

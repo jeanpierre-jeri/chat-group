@@ -16,7 +16,7 @@ export function ChannelSearch({ setSearch }: Props) {
             top: '50%',
             transform: 'translateY(-50%'
           }}
-          className='text-content absolute z-10 pointer-events-none w-6 left-3'
+          className='text-content absolute pointer-events-none w-6 left-3'
         >
           <SearchIcon />
         </div>

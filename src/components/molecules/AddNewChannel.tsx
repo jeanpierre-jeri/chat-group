@@ -1,28 +1,54 @@
-import { FormEvent, useRef } from 'react'
+import { useRef } from 'react'
+import { useSupabaseClient } from '@/hooks'
+import { Room } from '../../../types'
 
 interface AddNewChannelProps {
   isOverlayActive: boolean
   setIsOverlayActive: (isOverlayActive: boolean) => void
+  setRooms: React.Dispatch<React.SetStateAction<Room[]>>
 }
+
+type NewRoom = Pick<Room, 'name' | 'description'>
 
 export const AddNewChannel = ({
   isOverlayActive,
-  setIsOverlayActive
+  setIsOverlayActive,
+  setRooms
 }: AddNewChannelProps) => {
   const form = useRef<HTMLFormElement>(null)
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const supabase = useSupabaseClient()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const formData = new FormData(e.currentTarget)
-    console.log(formData)
+    const form = e.currentTarget
+
+    form.style.pointerEvents = 'none'
+
+    const formData = Object.fromEntries(new FormData(form)) as NewRoom
+
+    const { error, data } = await supabase
+      .from('rooms')
+      .insert(formData)
+      .select()
+
+    if (error) {
+      console.error('Error creando room', error)
+      form.style.pointerEvents = 'auto'
+      return
+    }
+
+    setRooms((prev) => [...prev, data[0]])
     setIsOverlayActive(false)
-    alert('Channel was added')
-    form.current?.reset()
+    form.reset()
+    form.style.pointerEvents = 'auto'
   }
+
   const handleCloseModal = () => {
     setIsOverlayActive(false)
     form.current?.reset()
   }
+
   return (
     <>
       <div
