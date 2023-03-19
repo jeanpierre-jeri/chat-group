@@ -1,10 +1,13 @@
 import Head from 'next/head'
 
 import { PlusIcon } from '@/components/atoms'
-import { Channels, User } from '@/components/molecules'
+import { AddNewChannel, Channels, User } from '@/components/molecules'
 import { Chat } from '@/components/organisms'
+import { useState } from 'react'
 
 export default function Home() {
+
+  const [isOverlayActive, setIsOverlayActive] = useState<boolean>(false)
   return (
     <>
       <Head>
@@ -23,7 +26,7 @@ export default function Home() {
             className='flex justify-between items-center px-8 py-4 h-16'
           >
             <h3 className='text-lg font-bold tracking-[-0.035em]'>Channels</h3>
-            <button className='text-[#f2f2f2] w-8 h-8 rounded-lg bg-gray-200 flex justify-center items-center p-1'>
+            <button className='text-[#f2f2f2] w-8 h-8 rounded-lg bg-gray-200 flex justify-center items-center p-1' onClick={() => setIsOverlayActive(true)}>
               <PlusIcon />
             </button>
           </div>
@@ -44,6 +47,7 @@ export default function Home() {
           <div></div>
         </main>
       </div>
+      <AddNewChannel isOverlayActive={isOverlayActive} setIsOverlayActive={setIsOverlayActive} />
     </>
   )
 }
