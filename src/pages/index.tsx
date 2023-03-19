@@ -14,7 +14,7 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='min-h-screen flex'>
+      <div className='min-h-screen flex max-h-screen'>
         <aside className='w-[22.5%] flex-shrink-0 bg-secondary min-w-[20.25rem] flex flex-col'>
           <div
             style={{
@@ -30,18 +30,17 @@ export default function Home() {
           <Channels />
           <User />
         </aside>
-        <main className='w-[77.5%] flex-shrink-0 flex flex-col'>
+        <main className='flex-grow flex-shrink-0 flex flex-col max-h-screen'>
           <div style={{ boxShadow: 'var(--shadow)' }} className='h-16 py-4 px-16 flex items-center flex-shrink-0'>
             <h1 className='text-lg font-bold tracking-[-0.035em]'>FRONT-END DEVELOPERS</h1>
           </div>
-          {false ? (
+          {true ? (
             <Chat />
           ) : (
             <div className='flex justify-center items-center text-center flex-grow p-4'>
               <h2 className='text-2xl font-bold'>Enter a channel to start chatting! 😁</h2>
             </div>
           )}
-          <div></div>
         </main>
       </div>
     </>

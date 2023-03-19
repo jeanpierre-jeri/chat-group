@@ -25,7 +25,7 @@ export function ChannelSearch({ setSearch }: Props) {
           type='text'
           name='channel'
           placeholder='Search'
-          className='block w-full bg-gray-300 p-3 pl-11 outline-none rounded-lg text-content text-sm'
+          className='block w-full bg-gray-300 p-3 pl-11 rounded-lg text-content text-sm'
         />
       </div>
     </form>

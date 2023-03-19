@@ -50,15 +50,15 @@ export function Channels() {
   }, [channels, search])
 
   return (
-    <div className='px-8 py-5 flex flex-col gap-8 flex-grow overflow-y-auto'>
+    <div className='px-8 py-5 flex flex-col gap-8 flex-grow'>
       <ChannelSearch setSearch={setSearch} />
 
-      <ul className='flex flex-col gap-6' ref={parent}>
+      <ul className='flex flex-col gap-6 flex-grow overflow-y-auto' ref={parent}>
         {filteredChannels.map(({ id, firstLetters, name }) => {
           return (
             <li key={id}>
               <button className='flex items-center gap-3 rounded-lg hover:bg-gray-300 transition-colors w-full'>
-                <p className='w-10 h-10 flex justify-center items-center text-white bg-gray-200 rounded-lg font-semibold text-lg tracking-[-0.035em]'>
+                <p className='w-10 h-10 flex justify-center items-center text-white bg-gray-200 rounded-lg font-semibold text-lg tracking-[-0.035em] uppercase'>
                   {firstLetters}
                 </p>
                 <h4>{name}</h4>
