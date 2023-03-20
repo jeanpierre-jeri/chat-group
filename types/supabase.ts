@@ -22,7 +22,7 @@ export interface Database {
           created_at?: string | null
           id?: string
           room_id: string
-          user_id?: string
+          user_id: string
         }
         Update: {
           content?: string
@@ -70,6 +70,26 @@ export interface Database {
           id?: string
           room_id?: string
           user_id?: string
+        }
+      }
+      users: {
+        Row: {
+          avatar_url: string
+          created_at: string | null
+          full_name: string
+          id: string
+        }
+        Insert: {
+          avatar_url: string
+          created_at?: string | null
+          full_name: string
+          id?: string
+        }
+        Update: {
+          avatar_url?: string
+          created_at?: string | null
+          full_name?: string
+          id?: string
         }
       }
     }

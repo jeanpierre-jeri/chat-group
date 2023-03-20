@@ -2,15 +2,21 @@ import { useMemo, useState } from 'react'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 import { ChannelSearch } from './ChannelSeach'
-import { Database } from '../../../types/supabase'
+import { Room } from '../../../types'
 
 interface ChannelProps {
-  setCurrentIdChannel: (id: number) => void
+  setActiveChannelId: (id: Room['id']) => void
   setIsAllChannelsActive: (isAllChannelsActive: boolean) => void
-  rooms: Database['public']['Tables']['rooms']['Row'][]
+  setUserToChannel: (id: Room['id']) => void
+  rooms: Room[]
 }
 
-export function Channels({ rooms }: ChannelProps) {
+export function Channels({
+  rooms,
+  setActiveChannelId,
+  setIsAllChannelsActive,
+  setUserToChannel
+}: ChannelProps) {
   const [search, setSearch] = useState('')
   const [parent] = useAutoAnimate<HTMLUListElement>()
 
@@ -35,11 +41,10 @@ export function Channels({ rooms }: ChannelProps) {
     )
   }, [channels, search])
 
-  const handleCurrentChannel = (id: string) => {
-    console.log(id)
-
-    // setCurrentIdChannel(id)
-    // setIsAllChannelsActive(false)
+  const handleCurrentChannel = (id: Room['id']) => {
+    setActiveChannelId(id)
+    setIsAllChannelsActive(false)
+    setUserToChannel(id)
   }
 
   return (
@@ -52,8 +57,11 @@ export function Channels({ rooms }: ChannelProps) {
       >
         {filteredChannels.map(({ id, firstLetters, name }) => {
           return (
-            <li key={id} onClick={() => handleCurrentChannel(id)}>
-              <button className='flex items-center gap-3 rounded-lg hover:bg-gray-300 transition-colors w-full'>
+            <li key={id}>
+              <button
+                onClick={() => handleCurrentChannel(id)}
+                className='flex items-center gap-3 rounded-lg hover:bg-gray-300 transition-colors w-full'
+              >
                 <p className='w-10 h-10 flex justify-center items-center text-white bg-gray-200 rounded-lg font-semibold text-lg tracking-[-0.035em] uppercase'>
                   {firstLetters}
                 </p>

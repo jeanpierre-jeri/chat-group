@@ -82,7 +82,7 @@ export function Chat({ messages }: ChatProps) {
     e.preventDefault()
   }
   return (
-    <div className='pb-10 overflow-y-auto flex flex-col gap-12'>
+    <div className='pb-10 overflow-y-auto flex flex-col gap-12 flex-grow'>
       <section
         className={`pt-24 px-16 flex-grow gap-9 flex flex-col-reverse overflow-y-auto ${styles.messages}`}
       >

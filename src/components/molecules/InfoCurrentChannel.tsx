@@ -1,9 +1,9 @@
-import { Member } from '@/interfaces'
+import { User } from '../../../types'
 
 interface InfoCurrentChannelProps {
   name: string
   description: string
-  members: Member[]
+  members: User[]
 }
 export const InfoCurrentChannel = ({
   name,
@@ -20,13 +20,17 @@ export const InfoCurrentChannel = ({
         Members
       </h5>
       <ul className='flex flex-col gap-6 flex-grow overflow-y-auto'>
-        {members.map(({ id, name, userImg }) => (
+        {members.map(({ avatar_url, full_name, id }) => (
           <li key={id} className='flex gap-7 items-center'>
             <picture className='flex flex-shrink-0'>
-              <img src={userImg} alt={name} className='w-10 h-10 rounded-lg' />
+              <img
+                src={avatar_url}
+                alt={full_name}
+                className='w-10 h-10 rounded-lg'
+              />
             </picture>
             <p className='font-bold text-lg text-gray-100 tracking-[-0.035em]'>
-              {name}
+              {full_name}
             </p>
           </li>
         ))}
