@@ -22,7 +22,7 @@ export interface Database {
           created_at?: string | null
           id?: string
           room_id: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           content?: string

@@ -142,7 +142,7 @@ export default function Home({ initialRooms }: HomeProps) {
                   {activeChannel?.name}
                 </h1>
               </div>
-              <Chat messages={messages} />
+              <Chat messages={messages} roomId={activeChannelId} />
             </>
           ) : (
             <div className='flex justify-center items-center text-center flex-grow p-4'>

@@ -1,6 +1,9 @@
+import { useState } from 'react'
 import { SendIcon } from '@/components/atoms'
 import { UserMessage } from '@/components/molecules'
+import { useSupabaseClient } from '@/hooks'
 import { MessagesList } from '@/interfaces'
+
 import styles from './styles.module.css'
 
 // const MESSAGES = [
@@ -75,11 +78,38 @@ import styles from './styles.module.css'
 
 interface ChatProps {
   messages: MessagesList[]
+  roomId: string
 }
 
-export function Chat({ messages }: ChatProps) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+export function Chat({ messages: serverMessages, roomId }: ChatProps) {
+  const [messages] = useState(serverMessages)
+  const supabase = useSupabaseClient()
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    const form = e.currentTarget
+
+    const { content } = Object.fromEntries(new FormData(form)) as {
+      content: string
+    }
+
+    // const message = {
+    //   content,
+    //   room_id: roomId,
+    //   id: Math.ceil(Math.random() * 1000)
+    //   user_id:  Math.ceil(Math.random() * 1000)
+    //   created_at: ((new Date()).toISOString()).toLocaleString('en-US')
+    // }
+
+    // setMessages((prev) => [{ id: Math.random() * 1000, ...message }, ...prev])
+
+    const { data } = await supabase
+      .from('messages')
+      .insert({ content, room_id: roomId })
+      .select()
+
+    console.log(data)
   }
   return (
     <div className='pb-10 overflow-y-auto flex flex-col gap-12 flex-grow'>
@@ -115,6 +145,7 @@ export function Chat({ messages }: ChatProps) {
             type='text'
             className='flex w-full rounded-lg bg-gray-300 p-4 pr-14 text-sm tracking-[-0.035em] font-medium'
             placeholder='Type a message here'
+            name='content'
           />
           <button
             type='submit'
