@@ -55,6 +55,8 @@ export function Chat({ roomId }: ChatProps) {
       content: string
     }
 
+    if (content === '') return
+
     const { error } = await supabase
       .from('messages')
       .insert({ content, room_id: roomId })
