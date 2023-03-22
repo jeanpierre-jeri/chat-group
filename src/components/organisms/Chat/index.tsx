@@ -1,6 +1,8 @@
 import { SendIcon } from '@/components/atoms'
 import { UserMessage } from '@/components/molecules'
 import { useMessages, useSupabaseClient } from '@/hooks'
+import { groupMessages, MessageWithUser } from '@/lib/groupMessages'
+import { useEffect } from 'react'
 import { Room } from '../../../../types'
 import styles from './styles.module.css'
 
@@ -79,8 +81,35 @@ interface ChatProps {
 }
 
 export function Chat({ roomId }: ChatProps) {
-  const { messages } = useMessages(roomId)
+  const { messages, setMessages } = useMessages(roomId)
   const supabase = useSupabaseClient()
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime chat')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages'
+        },
+        async (payload) => {
+          const { data } = await supabase
+            .from('messages')
+            .select('id, created_at, content, users(full_name, avatar_url)')
+            .eq('room_id', payload.new.room_id)
+            .order('created_at', { ascending: false })
+
+          setMessages(() => groupMessages(data as MessageWithUser[]))
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [supabase, setMessages])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -91,12 +120,15 @@ export function Chat({ roomId }: ChatProps) {
       content: string
     }
 
-    const { data } = await supabase
+    const { error } = await supabase
       .from('messages')
       .insert({ content, room_id: roomId })
-      .select()
 
-    console.log(data)
+    if (error) {
+      console.log('Hubo un error creando el mensaje', error)
+    }
+
+    form.reset()
   }
   return (
     <div className='pb-10 overflow-y-auto flex flex-col gap-12 flex-grow'>
