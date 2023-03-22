@@ -2,79 +2,10 @@ import { SendIcon } from '@/components/atoms'
 import { UserMessage } from '@/components/molecules'
 import { useMessages, useSupabaseClient } from '@/hooks'
 import { groupMessages, MessageWithUser } from '@/lib/groupMessages'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useEffect } from 'react'
 import { Room } from '../../../../types'
 import styles from './styles.module.css'
-
-// const MESSAGES = [
-//   {
-//     id: 2,
-//     date: 'August 3, 2020',
-//     messages: [
-//       {
-//         id: 5,
-//         name: 'Nellie Francis',
-//         createdAt: 'today at 2:29 AM',
-//         message:
-//           'Class aptent taciti sociosqu ad litora torquent per conubia nostra 😀',
-//         userImg: 'https://randomuser.me/api/portraits/women/1.jpg'
-//       },
-//       {
-//         id: 6,
-//         name: 'Shaunna Firth',
-//         createdAt: 'today at 1:29 PM',
-//         message:
-//           'Orci varius natoque penatibus et magnis dis parturient montes 😀',
-//         userImg: 'https://randomuser.me/api/portraits/women/3.jpg'
-//       },
-//       {
-//         id: 7,
-//         name: 'Denzel Barrett',
-//         createdAt: 'today at 2:39 PM',
-//         message:
-//           'Aenean tempus nibh vel est lobortis euismod. Vivamus laoreet viverra nunc 🐶',
-//         userImg: 'https://randomuser.me/api/portraits/men/4.jpg'
-//       }
-//     ]
-//   },
-//   {
-//     id: 1,
-//     date: 'August 2, 2020',
-//     messages: [
-//       {
-//         id: 1,
-//         name: 'Nellie Francis',
-//         createdAt: 'yesterday at 2:29 AM',
-//         message:
-//           'Suspendisse enim tellus, elementum quis dictum sed, sodales at mauris 😀',
-//         userImg: 'https://randomuser.me/api/portraits/women/1.jpg'
-//       },
-//       {
-//         id: 2,
-//         name: 'Annaliese Huynh',
-//         createdAt: 'yesterday at 2:29 AM',
-//         message:
-//           'Orci varius natoque penatibus et magnis dis parturient montes 😀',
-//         userImg: 'https://randomuser.me/api/portraits/women/2.jpg'
-//       },
-//       {
-//         id: 3,
-//         name: 'Xanthe Neal',
-//         createdAt: 'yesterday at 1:29 PM',
-//         message:
-//           'Etiam eleifend fermentum ipsum eu rhoncus. In non justo aliquam, imperdiet metus id, tincidunt orci 😍',
-//         userImg: 'https://randomuser.me/api/portraits/men/3.jpg'
-//       },
-//       {
-//         id: 4,
-//         name: 'Denzel Barrett',
-//         createdAt: 'yesterday at 2:39 PM',
-//         message: 'Proin pretium id nunc eu molestie. Nam consectetur',
-//         userImg: 'https://randomuser.me/api/portraits/men/4.jpg'
-//       }
-//     ]
-//   }
-// ]
 
 interface ChatProps {
   roomId: Room['id']
@@ -83,6 +14,7 @@ interface ChatProps {
 export function Chat({ roomId }: ChatProps) {
   const { messages, setMessages } = useMessages(roomId)
   const supabase = useSupabaseClient()
+  const [parent] = useAutoAnimate<HTMLUListElement>()
 
   useEffect(() => {
     const channel = supabase
@@ -142,7 +74,7 @@ export function Chat({ roomId }: ChatProps) {
                 <time className='bg-primary px-5'>{day}</time>
               </li>
               <li>
-                <ul className='flex flex-col gap-9'>
+                <ul className='flex flex-col gap-9' ref={parent}>
                   {messages.map(({ id, created_at, content, users }) => {
                     const { avatar_url, full_name } = users
                     return (
