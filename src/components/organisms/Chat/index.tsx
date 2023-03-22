@@ -24,7 +24,8 @@ export function Chat({ roomId }: ChatProps) {
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'messages'
+          table: 'messages',
+          filter: `room_id=eq.${roomId}`
         },
         async (payload) => {
           const { data } = await supabase
@@ -41,7 +42,7 @@ export function Chat({ roomId }: ChatProps) {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [supabase, setMessages])
+  }, [supabase, setMessages, roomId])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
