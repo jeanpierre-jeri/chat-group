@@ -29,6 +29,7 @@ export function useMessages(roomId: Room['id']) {
         .select('id, created_at, content, users(full_name, avatar_url)')
         .eq('room_id', roomId)
         .order('created_at', { ascending: false })
+        .range(0, 100)
 
       setMessages(() => groupMessages(data as MessageWithUser[]))
     }

@@ -1,0 +1,40 @@
+.messages {
+  --sb-track-color: #120f13;
+  --sb-thumb-color: #828282;
+  --sb-size: 6px;
+
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+
+  &::-webkit-scrollbar {
+    width: var(--sb-size);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: var(--sb-size);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: var(--sb-size);
+  }
+}
+
+.DateGroup {
+  color: #828282;
+  font-size: 0.75rem;
+  text-align: center;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 1px;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    background-color: #828282;
+  }
+}
