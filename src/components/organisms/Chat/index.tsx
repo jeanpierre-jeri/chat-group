@@ -55,11 +55,14 @@ export function Chat({ roomId }: ChatProps) {
       content: string
     }
 
-    if (content === '') return
+    if (content.trim() === '') {
+      form.style.pointerEvents = 'auto'
+      return
+    }
 
     const { error } = await supabase
       .from('messages')
-      .insert({ content, room_id: roomId })
+      .insert({ content: content.trim(), room_id: roomId })
 
     if (error) {
       console.log('Hubo un error creando el mensaje', error)
