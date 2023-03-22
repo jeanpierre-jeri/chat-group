@@ -16,7 +16,9 @@ export function UserMessage({ userImg, name, createdAt, message }: Props) {
           {name}
           <time className='text-sm font-medium'>{createdAt}</time>
         </h4>
-        <p className='font-medium text-lg tracking-[-0.035em] text-content leading-snug'>{message}</p>
+        <p className='font-medium text-base tracking-[-0.035em] text-content leading-snug'>
+          {message}
+        </p>
       </div>
     </li>
   )
