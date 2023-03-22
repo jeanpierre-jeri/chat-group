@@ -3,7 +3,7 @@ import { UserMessage } from '@/components/molecules'
 import { useMessages, useSupabaseClient } from '@/hooks'
 import { groupMessages, MessageWithUser } from '@/lib/groupMessages'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { Room } from '../../../../types'
 import styles from './styles.module.css'
 
@@ -14,7 +14,7 @@ interface ChatProps {
 export function Chat({ roomId }: ChatProps) {
   const { messages, setMessages } = useMessages(roomId)
   const supabase = useSupabaseClient()
-  const [sending, setSending] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
   const [parent] = useAutoAnimate<HTMLUListElement>()
 
   useEffect(() => {
@@ -46,19 +46,14 @@ export function Chat({ roomId }: ChatProps) {
   }, [supabase, setMessages, roomId])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const form = e.currentTarget
-    setSending(true)
-
     e.preventDefault()
+    const form = e.currentTarget
 
-    const { content } = Object.fromEntries(new FormData(form)) as {
-      content: string
-    }
+    const content = inputRef.current?.value.trim() as string
 
-    if (content.trim() === '') {
-      setSending(false)
-      return
-    }
+    if (content === '') return
+
+    inputRef.current!.disabled = true
 
     const { error } = await supabase
       .from('messages')
@@ -69,7 +64,8 @@ export function Chat({ roomId }: ChatProps) {
     }
 
     form.reset()
-    setSending(false)
+    inputRef.current!.disabled = false
+    inputRef.current?.focus()
   }
   return (
     <div className='pb-10 overflow-y-auto flex flex-col gap-12 flex-grow'>
@@ -105,7 +101,7 @@ export function Chat({ roomId }: ChatProps) {
       <form onSubmit={handleSubmit} className='px-16'>
         <div className='relative'>
           <input
-            disabled={sending}
+            ref={inputRef}
             type='text'
             className='flex w-full rounded-lg bg-gray-300 p-4 pr-14 text-sm tracking-[-0.035em] font-medium'
             placeholder='Type a message here'
