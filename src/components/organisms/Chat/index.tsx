@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import { SendIcon } from '@/components/atoms'
 import { UserMessage } from '@/components/molecules'
-import { useSupabaseClient } from '@/hooks'
-import { MessagesList } from '@/interfaces'
-
+import { useMessages, useSupabaseClient } from '@/hooks'
+import { Room } from '../../../../types'
 import styles from './styles.module.css'
 
 // const MESSAGES = [
@@ -77,12 +75,11 @@ import styles from './styles.module.css'
 // ]
 
 interface ChatProps {
-  messages: MessagesList[]
-  roomId: string
+  roomId: Room['id']
 }
 
-export function Chat({ messages: serverMessages, roomId }: ChatProps) {
-  const [messages] = useState(serverMessages)
+export function Chat({ roomId }: ChatProps) {
+  const { messages } = useMessages(roomId)
   const supabase = useSupabaseClient()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -93,16 +90,6 @@ export function Chat({ messages: serverMessages, roomId }: ChatProps) {
     const { content } = Object.fromEntries(new FormData(form)) as {
       content: string
     }
-
-    // const message = {
-    //   content,
-    //   room_id: roomId,
-    //   id: Math.ceil(Math.random() * 1000)
-    //   user_id:  Math.ceil(Math.random() * 1000)
-    //   created_at: ((new Date()).toISOString()).toLocaleString('en-US')
-    // }
-
-    // setMessages((prev) => [{ id: Math.random() * 1000, ...message }, ...prev])
 
     const { data } = await supabase
       .from('messages')
@@ -116,25 +103,28 @@ export function Chat({ messages: serverMessages, roomId }: ChatProps) {
       <section
         className={`pt-24 px-16 flex-grow gap-9 flex flex-col-reverse overflow-y-auto ${styles.messages}`}
       >
-        {messages?.map(({ id, date, messages }) => {
+        {messages?.map(({ day, messages }) => {
           return (
-            <ul key={id} className='flex flex-col gap-8'>
+            <ul key={day} className='flex flex-col gap-8'>
               <li className={styles.DateGroup}>
-                <time className='bg-primary px-5'>{date}</time>
+                <time className='bg-primary px-5'>{day}</time>
               </li>
-              <ul className='flex flex-col gap-9'>
-                {messages.map(({ id, createdAt, message, name, userImg }) => {
-                  return (
-                    <UserMessage
-                      key={id}
-                      createdAt={createdAt}
-                      message={message}
-                      name={name}
-                      userImg={userImg}
-                    />
-                  )
-                })}
-              </ul>
+              <li>
+                <ul className='flex flex-col gap-9'>
+                  {messages.map(({ id, created_at, content, users }) => {
+                    const { avatar_url, full_name } = users
+                    return (
+                      <UserMessage
+                        key={id}
+                        createdAt={created_at}
+                        message={content}
+                        name={full_name}
+                        userImg={avatar_url}
+                      />
+                    )
+                  })}
+                </ul>
+              </li>
             </ul>
           )
         })}

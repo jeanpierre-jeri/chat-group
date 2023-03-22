@@ -13,15 +13,12 @@ import { useSupabaseClient } from '@/hooks'
 import { createSupabaseServer } from '@/lib'
 
 import type { GetServerSideProps } from 'next'
-import type { MessagesList } from '@/interfaces'
 import type { Room, User as UserType } from '../../types'
 import { useUser } from '@supabase/auth-helpers-react'
 
 interface HomeProps {
   initialRooms: Room[]
 }
-
-const messages: MessagesList[] = []
 
 export default function Home({ initialRooms }: HomeProps) {
   const [isOverlayActive, setIsOverlayActive] = useState(false)
@@ -142,7 +139,7 @@ export default function Home({ initialRooms }: HomeProps) {
                   {activeChannel?.name}
                 </h1>
               </div>
-              <Chat messages={messages} roomId={activeChannelId} />
+              <Chat roomId={activeChannelId} />
             </>
           ) : (
             <div className='flex justify-center items-center text-center flex-grow p-4'>

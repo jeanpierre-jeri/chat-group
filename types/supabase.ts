@@ -12,21 +12,21 @@ export interface Database {
       messages: {
         Row: {
           content: string
-          created_at: string | null
+          created_at: string
           id: string
           room_id: string
           user_id: string
         }
         Insert: {
           content: string
-          created_at?: string | null
+          created_at?: string
           id?: string
           room_id: string
           user_id?: string
         }
         Update: {
           content?: string
-          created_at?: string | null
+          created_at?: string
           id?: string
           room_id?: string
           user_id?: string
@@ -75,19 +75,19 @@ export interface Database {
       users: {
         Row: {
           avatar_url: string
-          created_at: string | null
+          created_at: string
           full_name: string
           id: string
         }
         Insert: {
           avatar_url: string
-          created_at?: string | null
+          created_at?: string
           full_name: string
           id?: string
         }
         Update: {
           avatar_url?: string
-          created_at?: string | null
+          created_at?: string
           full_name?: string
           id?: string
         }
