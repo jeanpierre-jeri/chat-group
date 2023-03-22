@@ -49,6 +49,8 @@ export function Chat({ roomId }: ChatProps) {
 
     const form = e.currentTarget
 
+    form.style.pointerEvents = 'none'
+
     const { content } = Object.fromEntries(new FormData(form)) as {
       content: string
     }
@@ -60,6 +62,8 @@ export function Chat({ roomId }: ChatProps) {
     if (error) {
       console.log('Hubo un error creando el mensaje', error)
     }
+
+    form.style.pointerEvents = 'auto'
 
     form.reset()
   }
