@@ -3,7 +3,7 @@ import { UserMessage } from '@/components/molecules'
 import { useMessages, useSupabaseClient } from '@/hooks'
 import { groupMessages, MessageWithUser } from '@/lib/groupMessages'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Room } from '../../../../types'
 import styles from './styles.module.css'
 
@@ -14,6 +14,7 @@ interface ChatProps {
 export function Chat({ roomId }: ChatProps) {
   const { messages, setMessages } = useMessages(roomId)
   const supabase = useSupabaseClient()
+  const [sending, setSending] = useState(false)
   const [parent] = useAutoAnimate<HTMLUListElement>()
 
   useEffect(() => {
@@ -45,18 +46,17 @@ export function Chat({ roomId }: ChatProps) {
   }, [supabase, setMessages, roomId])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
     const form = e.currentTarget
+    setSending(true)
 
-    form.style.pointerEvents = 'none'
+    e.preventDefault()
 
     const { content } = Object.fromEntries(new FormData(form)) as {
       content: string
     }
 
     if (content.trim() === '') {
-      form.style.pointerEvents = 'auto'
+      setSending(false)
       return
     }
 
@@ -68,9 +68,8 @@ export function Chat({ roomId }: ChatProps) {
       console.log('Hubo un error creando el mensaje', error)
     }
 
-    form.style.pointerEvents = 'auto'
-
     form.reset()
+    setSending(false)
   }
   return (
     <div className='pb-10 overflow-y-auto flex flex-col gap-12 flex-grow'>
@@ -106,6 +105,7 @@ export function Chat({ roomId }: ChatProps) {
       <form onSubmit={handleSubmit} className='px-16'>
         <div className='relative'>
           <input
+            disabled={sending}
             type='text'
             className='flex w-full rounded-lg bg-gray-300 p-4 pr-14 text-sm tracking-[-0.035em] font-medium'
             placeholder='Type a message here'
