@@ -60,17 +60,17 @@ export const AddNewChannel = ({
         onClick={handleCloseModal}
       ></div>
       <div
-        className={`fixed top-1/2 left-1/2 translate-x-[-50%] w-[41rem] max-w-[80%] translate-y-[-50%] rounded-3xl bg-secondary px-11 py-8 z-10 transition-opacity duration-300 ${
+        className={`fixed top-1/2 left-1/2 translate-x-[-50%] w-[41rem] max-w-[80%] translate-y-[-50%] rounded-3xl bg-secondary px-6 md:px-11 py-6 md:py-8 z-10 transition-opacity duration-300 ${
           isOverlayActive
             ? 'opacity-100 pointer-events-auto'
             : 'pointer-events-none opacity-0'
         }`}
       >
-        <h3 className='mb-8 font-bold uppercase text-white text-lg tracking-tight'>
+        <h3 className='mb-6 md:mb-8 font-bold uppercase text-white text-sm md:text-lg tracking-tight'>
           New Channel
         </h3>
         <form
-          className='flex flex-col gap-7'
+          className='flex flex-col gap-6 md:gap-7 text-sm md:text-lg'
           onSubmit={handleSubmit}
           ref={form}
         >
@@ -92,7 +92,7 @@ export const AddNewChannel = ({
           <div className='flex justify-end items-center'>
             <button
               type='submit'
-              className='inline-block rounded-[8px] font-medium text-lg py-2 px-8 text-center text-white bg-[#2F80ED]'
+              className='inline-block rounded-[8px] font-medium text-sm md:text-lg py-2 px-8 text-center text-white bg-[#2F80ED]'
             >
               Save
             </button>

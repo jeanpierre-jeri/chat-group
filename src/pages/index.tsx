@@ -77,8 +77,8 @@ export default function Home({ initialRooms }: HomeProps) {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <div className='min-h-screen flex max-h-screen'>
-        <aside className='w-[22.5%] flex-shrink-0 bg-secondary min-w-[20.25rem] flex flex-col'>
+      <div className='min-h-screen flex flex-col md:flex-row max-h-screen'>
+        <aside className='w-[22.5%] flex-shrink-0 bg-secondary min-w-full md:min-w-[20.25rem] flex flex-col'>
           {isAllChannelsActive ? (
             <>
               <div
@@ -133,9 +133,9 @@ export default function Home({ initialRooms }: HomeProps) {
             <>
               <div
                 style={{ boxShadow: 'var(--shadow)' }}
-                className='h-16 py-4 px-16 flex items-center flex-shrink-0'
+                className='h-16 py-4 px-8 md:px-16 flex items-center flex-shrink-0'
               >
-                <h1 className='text-lg font-bold tracking-[-0.035em]'>
+                <h1 className='text-base md:text-lg font-bold tracking-[-0.035em]'>
                   {activeChannel?.name}
                 </h1>
               </div>

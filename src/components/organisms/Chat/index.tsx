@@ -35,14 +35,14 @@ export function Chat({ roomId }: ChatProps) {
   }
 
   return (
-    <div className='pb-10 overflow-y-auto flex flex-col gap-12 flex-grow'>
+    <div className='pb-10 overflow-y-auto flex flex-col gap-8 md:gap-12 flex-grow'>
       <Messages messages={messages} setMessages={setMessages} roomId={roomId} />
-      <form onSubmit={handleSubmit} className='px-16'>
+      <form onSubmit={handleSubmit} className='px-5 md:px-16'>
         <div className='relative'>
           <input
             ref={inputRef}
             type='text'
-            className='flex w-full rounded-lg bg-gray-300 p-4 pr-14 text-sm tracking-[-0.035em] font-medium'
+            className='flex w-full rounded-lg bg-gray-300 p-4 pr-14 text-xs md:text-sm tracking-[-0.035em] font-medium'
             placeholder='Type a message here'
             name='content'
           />

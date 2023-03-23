@@ -65,7 +65,7 @@ export function Channels({
                 <p className='w-10 h-10 flex justify-center items-center text-white bg-gray-200 rounded-lg font-semibold text-lg tracking-[-0.035em] uppercase'>
                   {firstLetters}
                 </p>
-                <h4>{name}</h4>
+                <h4 className='text-start'>{name}</h4>
               </button>
             </li>
           )
