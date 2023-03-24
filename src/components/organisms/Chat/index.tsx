@@ -35,7 +35,7 @@ export function Chat({ roomId }: ChatProps) {
   }
 
   return (
-    <div className='pb-10 overflow-y-auto flex flex-col gap-8 md:gap-12 flex-grow'>
+    <div className='pb-6 md:pb-10 overflow-y-auto flex flex-col gap-8 md:gap-12 flex-grow'>
       <Messages messages={messages} setMessages={setMessages} roomId={roomId} />
       <form onSubmit={handleSubmit} className='px-5 md:px-16'>
         <div className='relative'>
