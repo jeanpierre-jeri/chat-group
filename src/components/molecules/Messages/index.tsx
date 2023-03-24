@@ -46,7 +46,7 @@ export function Messages({ messages, roomId, setMessages }: Props) {
 
   return (
     <section
-      className={`pt-24 px-16 flex-grow gap-9 flex flex-col-reverse overflow-y-auto ${styles.messages}`}
+      className={`pt-24 px-8 laptop:px-16 flex-grow gap-9 flex flex-col-reverse overflow-y-auto ${styles.messages}`}
     >
       {messages?.map(({ day, messages }) => {
         return (

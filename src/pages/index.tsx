@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react'
+import type { GetServerSideProps } from 'next'
+import { useUser } from '@supabase/auth-helpers-react'
 import Head from 'next/head'
 
-import { PlusIcon, LeftArrowIcon } from '@/components/atoms'
+import { PlusIcon, LeftArrowIcon, MenuIcon } from '@/components/atoms'
 import {
   AddNewChannel,
   Channels,
@@ -12,10 +14,8 @@ import { Chat } from '@/components/organisms'
 import { useSupabaseClient } from '@/hooks'
 import { createSupabaseServer } from '@/lib'
 
-import type { GetServerSideProps } from 'next'
 import type { Room, User as UserType } from '../../types'
-import { useUser } from '@supabase/auth-helpers-react'
-
+import styles from './styles.module.css'
 interface HomeProps {
   initialRooms: Room[]
 }
@@ -23,6 +23,7 @@ interface HomeProps {
 export default function Home({ initialRooms }: HomeProps) {
   const [isOverlayActive, setIsOverlayActive] = useState(false)
   const [isAllChannelsActive, setIsAllChannelsActive] = useState(true)
+  const [isAsideActive, setIsAsideActive] = useState(true)
   const [activeChannelId, setActiveChannelId] = useState('')
   const [rooms, setRooms] = useState(initialRooms)
   const [members, setMembers] = useState<UserType[]>([])
@@ -76,9 +77,18 @@ export default function Home({ initialRooms }: HomeProps) {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-
       <div className='min-h-screen flex max-h-screen'>
-        <aside className='w-[22.5%] flex-shrink-0 bg-secondary min-w-[20.25rem] flex flex-col'>
+        <nav className={`${styles.Navbar}`}>
+          <div onClick={() => setIsAsideActive(true)}>
+            <MenuIcon />
+          </div>
+          <h1>{activeChannel?.name}</h1>
+        </nav>
+        <aside
+          className={`${styles.Aside} ${
+            isAsideActive ? 'left-0' : 'left-[-100%]'
+          } `}
+        >
           {isAllChannelsActive ? (
             <>
               <div
@@ -127,8 +137,16 @@ export default function Home({ initialRooms }: HomeProps) {
             </>
           )}
           <User />
+          <div
+            className={`${styles.CloseIcon} ${
+              isAsideActive ? 'opacity-100 visible' : 'opacity-0 invisible'
+            }`}
+            onClick={() => setIsAsideActive(false)}
+          >
+            <PlusIcon />
+          </div>
         </aside>
-        <main className='flex-grow flex-shrink-0 flex flex-col max-h-screen'>
+        <main className='flex-grow flex-shrink-0 flex flex-col max-w-[100%] max-h-screen'>
           {activeChannelId ? (
             <>
               <div

@@ -7,7 +7,7 @@ interface Props {
 
 export function UserMessage({ userImg, name, createdAt, message }: Props) {
   return (
-    <li className='flex items-start gap-7'>
+    <li className='flex items-start gap-4 laptop:gap-7'>
       <picture className='flex flex-shrink-0'>
         <img src={userImg} alt={name} className='w-10 h-10 rounded-lg' />
       </picture>

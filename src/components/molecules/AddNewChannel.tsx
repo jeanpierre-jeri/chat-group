@@ -52,7 +52,7 @@ export const AddNewChannel = ({
   return (
     <>
       <div
-        className={`fixed inset-0  bg-black/70 transition-opacity duration-300  ${
+        className={`fixed inset-0 z-10  bg-black/70 transition-opacity duration-300  ${
           isOverlayActive
             ? 'opacity-100 pointer-events-auto'
             : 'pointer-events-none opacity-0'

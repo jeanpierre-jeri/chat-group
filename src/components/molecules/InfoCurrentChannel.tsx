@@ -15,11 +15,11 @@ export const InfoCurrentChannel = ({
 
   return (
     <div className='px-8 py-5 flex flex-col gap-8 flex-grow'>
-      <div className='flex flex-col gap-4 mt-6'>
-        <h4 className='font-bold text-lg'>{name}</h4>
+      <div className='flex flex-col gap-4  laptop:mt-6'>
+        <h4 className='font-bold text-base laptop:text-lg'>{name}</h4>
         <p>{description}</p>
       </div>
-      <h5 className='font-bold text-lg text-white uppercase tracking-[-0.035em]'>
+      <h5 className='font-bold text-base laptop:text-lg text-white uppercase tracking-[-0.035em]'>
         Members
       </h5>
       <ul
