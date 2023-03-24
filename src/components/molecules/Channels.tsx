@@ -8,6 +8,7 @@ interface ChannelProps {
   setActiveChannelId: (id: Room['id']) => void
   setIsAllChannelsActive: (isAllChannelsActive: boolean) => void
   setUserToChannel: (id: Room['id']) => void
+  setIsAsideActive: (isAsideActive: boolean) => void
   rooms: Room[]
 }
 
@@ -15,7 +16,8 @@ export function Channels({
   rooms,
   setActiveChannelId,
   setIsAllChannelsActive,
-  setUserToChannel
+  setUserToChannel,
+  setIsAsideActive
 }: ChannelProps) {
   const [search, setSearch] = useState('')
   const [parent] = useAutoAnimate<HTMLUListElement>()
@@ -45,6 +47,7 @@ export function Channels({
     setActiveChannelId(id)
     setIsAllChannelsActive(false)
     setUserToChannel(id)
+    setIsAsideActive(false)
   }
 
   return (
