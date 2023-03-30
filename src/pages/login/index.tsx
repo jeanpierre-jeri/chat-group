@@ -50,9 +50,6 @@ export default function Login() {
             <h1 className='focus:outline-none text-4xl font-extrabold text-white text-center'>
               Login to Chat
             </h1>
-            <p className='focus:outline-none text-sm mt-3 font-medium leading-none text-white text-center'>
-              {"Don't have an account?"}
-            </p>
             <div className='mt-8 flex flex-col gap-4'>
               <button
                 aria-label='Continue with google'
