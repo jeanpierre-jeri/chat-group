@@ -1,5 +1,5 @@
 export * from './AddNewChannel'
-export * from './ChannelSeach'
+export * from './ChannelSearch'
 export * from './Channels'
 export * from './InfoCurrentChannel'
 export * from './Messages'

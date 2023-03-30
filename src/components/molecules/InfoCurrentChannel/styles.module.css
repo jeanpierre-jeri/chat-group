@@ -1,0 +1,21 @@
+.members {
+  --sb-track-color: #120f13;
+  --sb-thumb-color: #828282;
+  --sb-size: 6px;
+
+  scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+
+  &::-webkit-scrollbar {
+    width: var(--sb-size);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: var(--sb-size);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: var(--sb-size);
+  }
+}

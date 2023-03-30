@@ -1,5 +1,7 @@
 import { useAutoAnimate } from '@formkit/auto-animate/react'
-import { User } from '../../../types'
+import { User } from '../../../../types'
+
+import styles from './styles.module.css'
 
 interface InfoCurrentChannelProps {
   name: string
@@ -14,7 +16,7 @@ export const InfoCurrentChannel = ({
   const [parent] = useAutoAnimate<HTMLUListElement>()
 
   return (
-    <div className='px-8 py-5 flex flex-col gap-8 flex-grow'>
+    <div className='px-8 py-5 flex flex-col gap-8 flex-grow overflow-y-auto'>
       <div className='flex flex-col gap-4  laptop:mt-6'>
         <h4 className='font-bold text-base laptop:text-lg'>{name}</h4>
         <p>{description}</p>
@@ -24,7 +26,7 @@ export const InfoCurrentChannel = ({
       </h5>
       <ul
         ref={parent}
-        className='flex flex-col gap-6 flex-grow overflow-y-auto'
+        className={`flex flex-col gap-6 flex-grow overflow-y-auto ${styles.members}`}
       >
         {members.map(({ avatar_url, full_name, id }) => (
           <li key={id} className='flex gap-7 items-center'>

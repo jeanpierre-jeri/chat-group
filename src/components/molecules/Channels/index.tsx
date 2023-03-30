@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 
-import { ChannelSearch } from './ChannelSeach'
-import { Room } from '../../../types'
+import { ChannelSearch } from '../ChannelSearch'
+import { Room } from '../../../../types'
+
+import styles from './styles.module.css'
 
 interface ChannelProps {
   setActiveChannelId: (id: Room['id']) => void
@@ -51,11 +53,11 @@ export function Channels({
   }
 
   return (
-    <div className='px-8 py-5 flex flex-col gap-8 flex-grow'>
+    <div className='px-8 py-5 flex flex-col gap-8 flex-grow overflow-y-auto'>
       <ChannelSearch setSearch={setSearch} />
 
       <ul
-        className='flex flex-col gap-6 flex-grow overflow-y-auto'
+        className={`flex flex-col gap-6 flex-grow overflow-y-auto ${styles.channels}`}
         ref={parent}
       >
         {filteredChannels.map(({ id, firstLetters, name }) => {
