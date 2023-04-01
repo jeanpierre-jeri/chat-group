@@ -1,5 +1,4 @@
 import { useRef } from 'react'
-import { useSupabaseClient } from '@/hooks'
 import { Room } from '../../../types'
 
 interface AddNewChannelProps {
@@ -16,7 +15,6 @@ export const AddNewChannel = ({
   setRooms
 }: AddNewChannelProps) => {
   const form = useRef<HTMLFormElement>(null)
-  const supabase = useSupabaseClient()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -27,10 +25,13 @@ export const AddNewChannel = ({
 
     const formData = Object.fromEntries(new FormData(form)) as NewRoom
 
-    const { error, data } = await supabase
-      .from('rooms')
-      .insert(formData)
-      .select()
+    const { data, error } = await fetch('/api/channel', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    }).then((res) => res.json())
 
     if (error) {
       console.error('Error creando room', error)
