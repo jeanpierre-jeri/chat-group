@@ -47,7 +47,7 @@ export default function Home({ initialRooms }: HomeProps) {
     if (data?.length === 0) {
       const { error } = await supabase
         .from('rooms_users')
-        .upsert({ room_id: roomId })
+        .insert({ room_id: roomId })
 
       if (error) {
         console.log(
@@ -147,7 +147,7 @@ export default function Home({ initialRooms }: HomeProps) {
             <PlusIcon />
           </div>
         </aside>
-        <main className='flex-grow flex-shrink-0 flex flex-col max-w-[100%] max-h-screen'>
+        <main className='flex-grow flex-shrink-0 basis-0 flex flex-col max-w-[100%] max-h-screen'>
           {activeChannelId ? (
             <>
               <div
